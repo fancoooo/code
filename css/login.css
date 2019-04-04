@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    height: 100%;
+}
+
+body{
+    background-image:  url('../img/hinh1.jpg');
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+form.form-group {
+    padding: 24px;
+    background: white;
+    border-radius: 6px;
+    margin-top: 35px;
+}
+
+input {
+    margin-top: 22px;
+}
+.container-fluid{
+    position: relative;
+    top: 35%;
+    transform: translateY(-35%);
+}
+.user{
+    font-size: 45px;
+}
+.control{
+    position: relative;
+}
+.control > i{
+    position: absolute;
+    right: 12px;
+    top: 10px;
+}
