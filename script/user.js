@@ -261,8 +261,9 @@ $(document).ready(function () {
         processData: false,
         dataType: "text",
         success: function (response) {
-          window.location.href = window.location.pathname + window.location.search + window.location.hash;
-          console.log(response);
+          window.location.href = window.location.pathname + window.location.search + window.location.hash + "#";
+          alert("Cập Nhật Thành Công");
+          $('button[data-dismiss="modal"]').click();
         }
     })
   });

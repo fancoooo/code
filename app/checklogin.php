@@ -16,7 +16,6 @@
             if($row['PhanQuyen'] == 1){
                 echo ("User");
                 $_SESSION['user'] = 'User';
-                
             }else{
                 echo ("Admin");
                 $_SESSION['user'] = 'Admin';
