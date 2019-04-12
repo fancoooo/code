@@ -214,5 +214,62 @@ $(document).ready(function () {
     
   });
   //end
-  
+
+  //begin modal info
+  $('#info').click(function(){
+    console.log('hello');
+    $('#myModalInfo').modal();
+  });
+
+  $('#editInfo').click(function(){
+    var Hoten = document.getElementById('HoTen');
+    var Tuoi = document.getElementById('Tuoi');
+    var GioiTinh = document.getElementById('GioiTinh');
+    var SDT = document.getElementById('SDT');
+    $(Hoten).removeAttr('readonly');
+    $(Tuoi).removeAttr('readonly');
+    $(GioiTinh).removeAttr('disabled');
+    $(SDT).removeAttr('readonly');
+    $('#d').attr('style','display:block');
+  });
+
+  $("#d").click(function(){
+    var img = document.getElementById('image');
+    $(img).click();
+  });
+
+  $('#updateInfo').click(function(e){
+      e.preventDefault();
+      var Hoten = document.getElementById('HoTen');
+      var Tuoi = document.getElementById('Tuoi');
+      var GioiTinh = document.getElementById('GioiTinh');
+      var SDT = document.getElementById('SDT');
+      var dataImage = new FormData();
+      var img = document.getElementById('image');
+      dataImage.append('image',img.files[0]);
+      dataImage.append('HoTen',Hoten.value);
+      dataImage.append('Tuoi',Tuoi.value);
+      dataImage.append('GioiTinh',GioiTinh.value == 'nam' ? 1 : 0);
+      dataImage.append('SDT',SDT.value);
+      //var img = document.getElementById('image');
+      //dataImage.append('ImageUser',img.files[0]);
+      $.ajax({
+        type: "POST",
+        url: "../app/UserControler.php",
+        data: dataImage,
+        contentType: false,
+        processData: false,
+        dataType: "text",
+        success: function (response) {
+          window.location.href = window.location.pathname + window.location.search + window.location.hash;
+          console.log(response);
+        }
+    })
+  });
 });
+
+function changeFile(files){
+  const textToBLOB = new Blob(files, { type: 'image/plain' });
+  $('#img').attr('src',window.URL.createObjectURL(textToBLOB));
+  //$('#d').attr('style','display:none');
+}

@@ -66,7 +66,7 @@
         <div class="content-navbar-description"><i class="fa fa-coffee"></i><span> Coffee and Music</span></div>
         <div class="content-navbar-home"><a href="#"><i class="fa fa-home"></i><span
               class="icon-navbar-label">Homepage</span></a></div>
-        <div class="content-navbar-profile"><a href="#"><i class="fa fa-user"></i><span
+        <div class="content-navbar-profile" id="info"><a href="#"><i class="fa fa-user"></i><span
               class="icon-navbar-label">Profile</span></a></div>
         <div class="content-navbar-logout"><a href="logout.php" method="post"><i class="fa fa-times"></i><span
               class="icon-navbar-label">Log Out</span></a></div>
@@ -173,16 +173,6 @@
   <!-- End header -->
 
 
-
-
-
-
-
-
-
-
-
-
   <!-- Begin Modal -->
   <div class="modal fade" id="myModal">
     <div class="modal-dialog">
@@ -216,6 +206,59 @@
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
 
+      </div>
+    </div>
+  </div>
+  <!-- End Modal -->
+
+  <!-- Begin Modal -->
+  <div class="modal fade" id="myModalInfo">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title text-center">Thông tin nhân viên</h4>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          
+        
+        <form>
+          <div id="editImage" class="form-group">
+            <img id="img" src="<?php echo trim($_SESSION['Image']) != '' ? $_SESSION['Image'] : '../img/Default.png'?>" alt="Info" width="100px" height="100px" >
+            <input type="file" id="image" class="form-control" name="image" style="display:none;" onchange="changeFile(this.files)">
+            <div class="den" id ="d" style="display:none;">Thay Đổi</div>
+          </div>
+            <div class="form-group">
+              <label for="HoTen">Họ và Tên</label>
+              <input type="text" class="form-control" id="HoTen" name="HoTen" value="<?php echo $_SESSION['HoTen']?>" readonly>
+            </div>
+            <div class="form-group">
+              <label for="Tuoi">Tuổi</label>
+              <input type="text" class="form-control" id="Tuoi" name="Tuoi" value="<?php echo $_SESSION['Tuoi']?>" readonly>
+            </div>
+            <div class="form-group">
+              <label for="GioiTinh">Giới Tính</label>
+              <select name="GioiTinh" id="GioiTinh" disabled>
+                <option value="nam" <?php echo $_SESSION['GioiTinh'] == 'Nam' ? 'selected' : '' ?> >Nam</option>
+                <option value="nu" <?php echo $_SESSION['GioiTinh'] == 'Nu' ? 'selected' : '' ?> >Nữ</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="SDT">Số Điện Thoại</label>
+              <input type="text" class="form-control" id="SDT" name="SDT" value="<?php echo $_SESSION['SDT']?>" readonly>
+            </div>
+            <input type="button" class="btn btn-primary" id="editInfo" value="Sửa Thông Tin">
+            <input type="button" class="btn btn-primary" id="updateInfo" name="update" value="Cập Nhật Thông Tin">
+          </form>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>

@@ -3,8 +3,7 @@ window.onload = function () {
     var pass = document.getElementById('pass');
     var btn = document.getElementsByClassName('btn')[0];
 
-    btn.addEventListener('click', function(e){
-        e.preventDefault();
+    $('.form-group input').on('keypress',function(e){
         
         /*$.ajax({
             type: "POST",
@@ -20,23 +19,24 @@ window.onload = function () {
             }
         });
         */
-       $.post('http://localhost:8080/Coffee/app/checklogin.php', { email: `${email.value}`, pass: `${pass.value}` }, function(data){
-            // show the response
-            console.log(data + data.length);
-            if(data.trim() == "User"){
-                window.open("http://localhost:8080/Coffee/public/User.php","_parent");
-            }else if(data.trim() === "Admin"){
-                window.open("http://localhost:8080/Coffee/public/admin.php","_parent");
-            }else{
-                alert("Thông tin đăng nhập không chính xác");
-            }
-             
-        }).fail(function() {
-         
-            // just in case posting your form failed
-            alert( "Posting failed." );
-             
-        });
-
+       if(e.keyCode == 13){
+            $.post('http://localhost:8080/Coffee/app/checklogin.php', { email: `${email.value}`, pass: `${pass.value}` }, function(data){
+                // show the response
+                console.log(data + data.length);
+                if(data.trim() == "User"){
+                    window.open("http://localhost:8080/Coffee/public/User.php","_parent");
+                }else if(data.trim() === "Admin"){
+                    window.open("http://localhost:8080/Coffee/public/admin.php","_parent");
+                }else{
+                    alert("Thông tin đăng nhập không chính xác");
+                }
+                
+            }).fail(function() {
+            
+                // just in case posting your form failed
+                alert( "Posting failed." );
+                
+            });
+       }
     });
 }

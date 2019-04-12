@@ -16,12 +16,17 @@
             if($row['PhanQuyen'] == 1){
                 echo ("User");
                 $_SESSION['user'] = 'User';
-                $_SESSION['name'] = $row['Email'];
+                
             }else{
                 echo ("Admin");
                 $_SESSION['user'] = 'Admin';
-                $_SESSION['name'] = $row['Email'];
             }
+                $_SESSION['name'] = $row['Email'];
+                $_SESSION['HoTen'] = $row['HoTen'];
+                $_SESSION['Tuoi'] = $row['Tuoi'];
+                $_SESSION['GioiTinh'] = $row['GioiTinh'] ? 'Nam' : 'Nu';
+                $_SESSION['SDT'] = $row['SDT'];
+                $_SESSION['Image'] = $row['Image'];
             break; 
         }
     }
