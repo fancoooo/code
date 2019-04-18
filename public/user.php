@@ -18,6 +18,7 @@
   <script src="../script/jquerynew.js"></script>
   <script src="../script/jquery.js"></script>
   <script src="../bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js"></script>
 
   <title>Nhân Viên</title>
 </head>
