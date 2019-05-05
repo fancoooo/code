@@ -18,7 +18,7 @@
 </head>
 <body>
 <?php
-    if(isset($_SESSION['user'])){
+    if(!isset($_SESSION['user'])){
         header('Location: public/'.$_SESSION['user'].'.php');
     }
 ?>

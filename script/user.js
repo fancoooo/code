@@ -217,7 +217,6 @@ $(document).ready(function () {
 
   //begin modal info
   $('#info').click(function(){
-    console.log('hello');
     $('#myModalInfo').modal();
   });
 
@@ -238,6 +237,7 @@ $(document).ready(function () {
     $(img).click();
   });
 
+  // cập nhật thông tin tài khoản
   $('#updateInfo').click(function(e){
       e.preventDefault();
       var Hoten = document.getElementById('HoTen');
@@ -253,24 +253,50 @@ $(document).ready(function () {
       dataImage.append('SDT',SDT.value);
       //var img = document.getElementById('image');
       //dataImage.append('ImageUser',img.files[0]);
-      $.ajax({
-        type: "POST",
-        url: "../app/UserControler.php",
-        data: dataImage,
-        contentType: false,
-        processData: false,
-        dataType: "text",
-        success: function (response) {
-          window.location.href = window.location.pathname + window.location.search + window.location.hash + "#";
-          alert("Cập Nhật Thành Công");
-          $('button[data-dismiss="modal"]').click();
-        }
-    })
+    //   $.ajax({
+    //     type: "POST",
+    //     url: "../app/UserControler.php",
+    //     data: dataImage,
+    //     contentType: false,
+    //     processData: false,
+    //     dataType: "text",
+    //     success: function (response) {
+    //       window.location.href = window.location.pathname + window.location.search + window.location.hash;
+    //       alert("Cập Nhật Thành Công");
+    //       $('button[data-dismiss="modal"]').click();
+    //       Hoten.setAttribute('readonly','');
+    //       Tuoi.setAttribute('readonly','');
+    //       GioiTinh.setAttribute('readonly','');
+    //       SDT.setAttribute('readonly','');
+
+    //     }
+    // })
+    axios({
+      method: 'POST',
+      url: '../app/UserControler.php',
+      headers: {'Accept-Language': 'vi-VN'},
+      data: dataImage
+    }).then(function(response){
+      console.log(response);
+      //window.location.href = window.location.pathname + window.location.search + window.location.hash;
+      alert("Cập Nhật Thành Công");
+      $('button[data-dismiss="modal"]').click();
+      Hoten.setAttribute('readonly','');
+      Tuoi.setAttribute('readonly','');
+      GioiTinh.setAttribute('readonly','');
+      SDT.setAttribute('readonly','');
+    }).catch(function(error){
+      console.log(error);
+    });
   });
 });
 
+//
 function changeFile(files){
-  const textToBLOB = new Blob(files, { type: 'image/plain' });
-  $('#img').attr('src',window.URL.createObjectURL(textToBLOB));
+  if(files){
+    const textToBLOB = new Blob(files, { type: 'image/plain' });
+    $('#img').attr('src',window.URL.createObjectURL(textToBLOB));
+  }
   //$('#d').attr('style','display:none');
+
 }
