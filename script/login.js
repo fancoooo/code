@@ -23,9 +23,9 @@ window.onload = function () {
             $.post('http://localhost:8080/Coffee/app/checklogin.php', { email: `${email.value}`, pass: `${pass.value}` }, function(data){
                 // show the response
                 console.log(data + data.length);
-                if(data.trim() == "User"){
-                    window.open("http://localhost:8080/Coffee/public/User.php","_parent");
-                }else if(data.trim() === "Admin"){
+                if(data.trim() == "user"){
+                    window.open("http://localhost:8080/Coffee/public/user.php","_parent");
+                }else if(data.trim() === "admin"){
                     window.open("http://localhost:8080/Coffee/public/admin.php","_parent");
                 }else{
                     alert("Thông tin đăng nhập không chính xác");

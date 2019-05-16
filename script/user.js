@@ -5,7 +5,7 @@ $(document).ready(function () {
   var sinhto = document.getElementsByClassName("content-sp-sinhto")[0];
   var caphe = document.getElementsByClassName("content-sp-caphe")[0];
   var nuocngot = document.getElementsByClassName("content-sp-nuocngot")[0];
-
+  // get list sản phẩm 
   $.ajax({
     type: "GET",
     url: "../app/loainuoc.php",
@@ -16,8 +16,8 @@ $(document).ready(function () {
     success: function (response) {
       for(let i=0;i<response.length;i++){
         var str = response[i].split('-');
-        $(`.content-sp-home`).append(`<div class='icon-coffee col-4 search' data-id='${str[0]}' data-gia='${str[3]}' title='${str[1]}'><i class='fa fa-coffee add'></i><span class='tien'>${str[3]} VND</span><span class='tennuoc'>${str[1]}</span></div>`);
-        $(`.content-sp-${str[2]}`).append(`<div class='icon-coffee col-4 search' data-id='${str[0]}' data-gia='${str[3]}' title='${str[1]}'><i class='fa fa-coffee add'></i><span class='tien'>${str[3]} VND</span><span class='tennuoc'>${str[1]}</span></div>`);
+        $(`.content-sp-home`).append(`<div class='icon-coffee col-4 search' data-id='${str[0]}' data-gia='${str[3]}' title='${str[1]}'><i class='fa fa-coffee add'></i><span class='tien'>${formatNumber(str[3])} VND</span><span class='tennuoc'>${str[1]}</span></div>`);
+        $(`.content-sp-${str[2]}`).append(`<div class='icon-coffee col-4 search' data-id='${str[0]}' data-gia='${str[3]}' title='${str[1]}'><i class='fa fa-coffee add'></i><span class='tien'>${formatNumber(str[3])} VND</span><span class='tennuoc'>${str[1]}</span></div>`);
       }
       
     }
@@ -50,12 +50,12 @@ $(document).ready(function () {
       e.preventDefault();
       $(`.${$('.select').children("option:selected").val()}`).append(`<div class="sp row" data-man="${$(this).parent().attr('data-id')}">
       <div class='col-4'>${$(this).parent().attr('title')}</div>
-      <div class='col-3'>${$(this).parent().attr('data-gia')}</div>
+      <div class='col-3' data-price='${$(this).parent().attr('data-gia')}'>${formatNumber($(this).parent().attr('data-gia'))} ₫</div>
       <div class='col-2'><input type="number" min="1" max="10" value="1"></div>
-      <div class='col-3'>${$(this).parent().attr('data-gia')}</div></div>`);
-      $("input").bind('keyup mouseup', function () {
+      <div class='col-3'>${formatNumber($(this).parent().attr('data-gia'))} ₫</div></div>`);
+      $("input[type='number']").bind('keyup mouseup', function () {
         var s = this.parentElement.nextElementSibling;
-        s.innerHTML = this.parentElement.previousElementSibling.textContent*this.value;
+        s.innerHTML = formatNumber(this.parentElement.previousElementSibling.getAttribute('data-price')*this.value) + ' ₫';
         
       });
     }
@@ -158,10 +158,10 @@ $(document).ready(function () {
         var soluong = $(`.${mab}`).children();
         var arr = [];
         for(let i=0;i<soluong.length;i++){
-          tongtien += parseInt($(soluong[i]).children().last().html());
+          tongtien += parseInt($(soluong[i]).children().eq(1).attr('data-price'))*$(soluong[i]).find('input').val();
           arr.push(new Array($(soluong[i]).attr('data-man'),$(soluong[i]).find('input').val()));
         }
-        alert("tổng tiền Cần thanh toán là " + tongtien); 
+        alert("tổng tiền Cần thanh toán là " + formatNumber(tongtien)) + " ₫"; 
       var t = confirm("bạn có muốn thanh toán ko");
       if(t){
         // json post lên server php
@@ -203,6 +203,7 @@ $(document).ready(function () {
 
   //begin search sản phẩm 
   $('#search-sp').keyup(function(){
+    console.log('hekk');
     var sp = document.getElementsByClassName('search');
     for(let i=0;i<sp.length;i++){
       if(sp[i].getAttribute('title').toLowerCase().search(this.value.toLowerCase()) == -1){
@@ -297,6 +298,7 @@ function changeFile(files){
     const textToBLOB = new Blob(files, { type: 'image/plain' });
     $('#img').attr('src',window.URL.createObjectURL(textToBLOB));
   }
-  //$('#d').attr('style','display:none');
-
+}
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }

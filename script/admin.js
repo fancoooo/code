@@ -10,11 +10,10 @@ $(document).ready(function(){
         success: function (response) {
             // begin render list sản phẩm 
             for(var key in response){
-                $('.list').append(`<div class="content-section-info">
-                <div class="title-factor-id">${key}</div>
+                $('.list').append(`<div class="content-section-info" data-id="${key}">
                 <div class="title-factor-name">${response[key][0]}</div>
                 <div class="title-factor">${response[key][2]}</div>
-                <div class="title-factor">${response[key][1]}</div>
+                <div class="title-factor">${response[key][1].toUpperCase()}</div>
                 <div class="title-factor-icon">
                     <button type="button" class="update-sp"><i class="fa fa-edit"></i></button>
                     <button type="button" class="delete-sp"><i class="fa fa-trash"></i></button>
@@ -26,17 +25,23 @@ $(document).ready(function(){
             // begin delete sản phẩm
             $('.delete-sp').click(function (){
                 if(confirm("Bạn có chắc chắn muốn xóa sản phẩm")){
-                    $(this).parent().parent().remove();
+                    var remove = $(this);
                     $.ajax({
                         type: "GET",
                         url: "../app/productControler.php",
                         data: {
                             action: 'deleteProduct',
-                            'id': $(this).parent().parent().children().first().html()
+                            'id': $(this).parent().parent().attr('data-id')
                         },
                         dataType: "text",
                         success: function (response) {
-                            alert('Xóa thành công sản phẩm');
+                            if(response.trim() != 'none'){
+                                remove.parent().parent().remove();
+                                alert('Xóa thành công sản phẩm');
+                            }else{
+                                alert('Hệ thống lỗi : đợi fix');
+                            }
+                            
                         }
                     });
                 }
@@ -46,32 +51,51 @@ $(document).ready(function(){
 
             //begin update sản phẩm
             $('.update-sp').click(function(){
-                var price =  prompt("Cập nhật giá Sản phẩm:",$(this).parent().parent().children().eq(2).text());
-                if(confirm("Bạn chắc chắn muốn cập nhật sản phẩm")){
-                    $(this).parent().parent().children().eq(2).text(price);
-                    $.ajax({
-                        type: "GET",
-                        url: "../app/productControler.php",
-                        data: {
-                            action: 'updateProduct',
-                            'price': price,
-                            'id': $(this).parent().parent().children().first().text()
-                        },
-                        dataType: "text",
-                        success: function (response) {
-                            alert('Cập nhật thành công');
-                        }
-                    });
-                }
+                    var price =  prompt("Cập nhật giá Sản phẩm:",$(this).parent().parent().children().eq(1).text());
+                    var id = $(this);
+                    if(price){
+                        
+                        $.ajax({
+                            type: "GET",
+                            url: "../app/productControler.php",
+                            data: {
+                                action: 'updateProduct',
+                                'price': price,
+                                'id': id.parent().parent().attr('data-id')
+                            },
+                            dataType: "text",
+                            success: function (response) {
+                                id.parent().parent().children().eq(1).text(price);
+                                alert('Cập nhật thành công');
+                            }
+                        });
+                    }
+                    
             });
             //end
 
-            //begin add sản phẩm
+            //begin modal add sản phẩm
             $('.add-sp').click(function(){
                 $('#myModal').modal();
             });
             //end
+
             
+            
+          }
+      });
+
+      $.ajax({
+          type: "GET",
+          url: "../app/loainuoc.php",
+          data: {
+              action: 'getdanhmuc'
+          },
+          dataType: "json",
+          success: function (response) {
+              for(var key in response){
+                  $('#loaisp').append(`<option value="${key}" >${response[key][0].toUpperCase()}</option>`);
+              }
           }
       });
 
@@ -83,10 +107,11 @@ $(document).ready(function(){
         },
         dataType: "json",
         success: function (response) {
+            console.log(response);
             //begin render list Order
             for(var key in response){
-                $('.order').append(`<div class="content-section-info show-info">
-                <div class="title-factor order1">${key}</div>
+                $('.order').append(`<div class="content-section-info show-info" data-orderid="${key}">
+                <div class="title-factor order1">${response[key][3]}</div>
                 <div class="title-factor order2">${response[key][0]}</div>
                 <div class="title-factor order3">${response[key][1]} VND</div>
                 <div class="title-factor order4">${response[key][2]['date'].substring(0,response[key][2]['date'].length-7)}</div>
@@ -106,17 +131,17 @@ $(document).ready(function(){
                     dataType: "json",
                     success: function (response) {
                         console.log(response);
-                        // $('.body-content').children().remove();
-                        // for(var key in response){
-                        //     if(key !== ""){
-                        //         $('.body-content').append(`<div class="body-item col-5">${key}</div>
-                        //         <div class="body-item col-2">${response[key][0]}</div>
-                        //         <div class="body-item col-3">${response[key][2]}</div>
-                        //         <div class="body-item col-2">${response[key][0]*response[key][2]}</div>
-                        //         </div>`)
-                        //     }
-                        // }
-                        // $('#ModalOrder').modal();
+                        $('.body-content').children().remove();
+                        for(var key in response){
+                            if(key !== ""){
+                                $('.body-content').append(`<div class="body-item col-5">${key}</div>
+                                <div class="body-item col-2">${response[key][0]}</div>
+                                <div class="body-item col-3">${response[key][2]}</div>
+                                <div class="body-item col-2">${response[key][0]*response[key][2]}</div>
+                                </div>`)
+                            }
+                        }
+                        $('#ModalOrder').modal();
                     }
                 });
             });
@@ -173,7 +198,49 @@ $(document).ready(function(){
                 console.log(response);
             }
         });
+        
   });
 
+// begin add sản phẩm
+$('#addsp').click(function(){
+    var namesp = $('#namesp').val();
+    var price = $('#price').val();
+    var loaisp = $('#loaisp').children('option:selected');
+    if(namesp.trim() == '' || price.trim() == '' || loaisp.val().trim() == ''){
+        alert('Thông tin điền thiếu');
+        return ;
+    }else{
+        $.ajax({
+            type: "GET",
+            url: "../app/loainuoc.php",
+            data: {
+                action: 'addsp',
+                tensp: namesp,
+                loaisp: loaisp.val(),
+                gia: price
+            },
+            dataType: "text",
+            success: function (response) {
+                if(response.trim() == 'done'){
+                    $('#myModal').modal('hide');
+                    $('.list').append(`<div class="content-section-info">
+                    <div class="title-factor-name">${namesp}</div>
+                    <div class="title-factor">${price}</div>
+                    <div class="title-factor">${loaisp.html()}</div>
+                    <div class="title-factor-icon">
+                        <button type="button" class="update-sp"><i class="fa fa-edit"></i></button>
+                        <button type="button" class="delete-sp"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="add-sp"><i class="fa fa-plus-square"></i></button>
+                    </div>
+                </div>`);
+                alert("Thêm thành công");
+                }else{
+                    alert('Lỗi');
+                }
+            }
+        });
+    }
+});
+//end
 
 });

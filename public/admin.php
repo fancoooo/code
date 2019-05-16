@@ -22,7 +22,7 @@
 
 <body>
 	<?php
-    if(isset($_SESSION['user']) && $_SESSION['user'] == 'Admin'){
+    if(isset($_SESSION['user']) && $_SESSION['user'] == 'admin'){
     }else{
         header("Location: ../index.php");
     }
@@ -59,7 +59,7 @@
 						<div class="clr"></div>
 					</div>
 					<div class="sidebar-area-content">
-						<div class="sidebar-area-child" onclick="displayContent(4)"><i class="fa fa-list"></i><span
+						<div class="sidebar-area-child" onclick="displayContent(2)"><i class="fa fa-list"></i><span
 								class="li-text">Danh sách thu chi</span></div>
 					</div>
 				</div>
@@ -80,7 +80,6 @@
 			<div class="content-section" id="first-content-section">
 				<div class="container">
 					<div class="content-section-title">
-						<div class="title-factor-id">ID</div>
 						<div class="title-factor-name name-center">Tên sản phẩm</div>
 						<div class="title-factor">Đơn Giá</div>
 						<div class="title-factor">Loại Sản Phẩm</div>
@@ -171,11 +170,11 @@
 				</div>
 			</div> -->
 			<!-- -------------------------------------------List order-------------------------------------------- -->
-			<div class="content-section" id="fifth-content-section">
+			<div class="content-section" id="fifth-content-section" >
 				<div class="container">
 					<div class="content-section-title">
-						<div class="title-factor order1">Mã Phiếu</div>
-						<div class="title-factor order2">mã Khách Hàng</div>
+						<div class="title-factor order1">Nhân Viên Bán Hàng</div>
+						<div class="title-factor order2">Mã Khách Hàng</div>
 						<div class="title-factor order3">Tổng Tiền</div>
 						<div class="title-factor order4">Thời gian lập phiếu</div>
 					</div>
@@ -201,12 +200,31 @@
 
 				<!-- Modal body -->
 				<div class="modal-body">
-					
+				<div class="form-group">
+              <label for="HoTen">Tên Sản Phẩm</label>
+              <input type="text" class="form-control" id="namesp"  value="">
+            </div>
+            <div class="form-group">
+              <label for="Tuoi">Đơn Giá</label>
+			  <div class="input-group mb-3">
+			  		<input type="text" class="form-control" id="price" value="">
+					<div class="input-group-append">
+					<span class="input-group-text" id="basic-addon2">VND</span>
+					</div>
+			  </div>
+              
+            </div>
+            <div class="form-group">
+              <label for="GioiTinh">Loại Sản Phẩm</label>
+              <select id="loaisp" class="custom-select">
+			  	<option value="" selected>CHOOOSE...</option>
+              </select>
+            </div>
 				</div>
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Add</button>
+					<button type="button" class="btn btn-danger" id="addsp">Add</button>
 				</div>
 
 			</div>

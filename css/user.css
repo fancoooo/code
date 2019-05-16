@@ -235,7 +235,7 @@ input#search {
 i.fa.fa-search {
     position: absolute;
     top: 11px;
-    right: 29px;
+    right: 8px;
     font-size: 21px;
 }
 .borred{
@@ -350,7 +350,7 @@ input#soluong {
 }
 
 input#search-sp {
-    width: 97%;
+    width: 100%;
     border-radius: 5px;
     outline: none;
     padding: 7px;

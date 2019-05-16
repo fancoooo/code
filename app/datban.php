@@ -1,5 +1,5 @@
 <?php
-
+    session_start();
     function khid(){
         require __DIR__ . '/connect.php';
         $sql = "SELECT TOP 1 * FROM [KhachHang] ORDER BY MaKH DESC";
@@ -65,8 +65,8 @@
     function postphieu($id,$s,$t){
         require __DIR__ . '/connect.php';
         $arr = array();
-        $sql = "INSERT INTO [PhieuThu](MaKH,TongTien,NgayLap) VALUES(?,?,?)";
-        $stmt = sqlsrv_prepare($conn,$sql,array(&$id,&$s,&$t));
+        $sql = "INSERT INTO [PhieuThu](MaKH,Email,TongTien,NgayLap) VALUES(?,?,?,?)";
+        $stmt = sqlsrv_prepare($conn,$sql,array(&$id,&$_SESSION['name'],&$s,&$t));
         if( $stmt === false) {
             die( print_r( sqlsrv_errors(), true) );
         }else{

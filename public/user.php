@@ -25,10 +25,10 @@
 
 <body>
   <?php
-    if(isset($_SESSION['user']) && $_SESSION['user'] == 'User'){
+    if(isset($_SESSION['user']) && $_SESSION['user'] == 'user'){
         
     }else{
-        header("Location: ../index.php");
+        header("Location: localhost:8080/Coffee/");
     }
 ?>
   <!-- Begin header -->
@@ -37,7 +37,7 @@
       <div id="sidebar-header">
         <div id="sidebar-header-logo"><img src=""></img></div>
         <div id="toggle-btn" onclick="collapsedManagement()"><i class="fa fa-bars fa-lg"></i></div>
-        <span class="sidebar-header-text">Username : <?php echo $_SESSION['name']?></span><br>
+        <span class="sidebar-header-text">Username : <?php echo $_SESSION['HoTen']?></span><br>
         <span class="sidebar-header-text">Role : Nhân Viên</span><br>
       </div>
       <!--<script src="script/collapsed.js"></script>-->
@@ -126,7 +126,20 @@
             <div class="header borred" data-Man='home'>
               <i class="fa fa-home"></i>
             </div>
-            <div class="header" data-Man='trasua'>
+            <?php
+              include '../app/connect.php';
+              $sql = 'SELECT * FROM DanhMuc';
+              $stmp = sqlsrv_query($conn,$sql);
+              if($stmp == false){
+                die( print_r( sqlsrv_errors(), true) );
+              }
+              while($row = sqlsrv_fetch_array($stmp,SQLSRV_FETCH_ASSOC)){
+                echo '<div class="header" data-Man="'.$row['LoaiN'].'">
+                <span>'.mb_strtoupper($row['TenL'],'UTF-8').'</span>
+              </div>';
+              }
+            ?>
+            <!-- <div class="header" data-Man='trasua'>
               <span>TRÀ SỮA</span>
             </div>
             <div class="header" data-Man='sinhto'>
@@ -137,7 +150,7 @@
             </div>
             <div class="header" data-Man='nuocngot'>
               <span>NƯỚC NGỌT</span>
-            </div>
+            </div> -->
           </div>
           <div class="vien"></div>
           <div class="search-sp">
@@ -149,7 +162,23 @@
                 <div class="content-sp-home row"> 
                 </div>
               </div>
-              <div class="content-display">
+
+              <?php
+              include '../app/connect.php';
+              $sql = 'SELECT * FROM DanhMuc';
+              $stmp = sqlsrv_query($conn,$sql);
+              if($stmp == false){
+                die( print_r( sqlsrv_errors(), true) );
+              }
+              while($row = sqlsrv_fetch_array($stmp,SQLSRV_FETCH_ASSOC)){
+                echo '<div class="content-display">
+                <div class="content-sp-'.$row['LoaiN'].' row">
+                </div>
+              </div>';
+              }
+            ?>
+
+              <!-- <div class="content-display">
                 <div class="content-sp-trasua row">
                 </div>
               </div>
@@ -164,7 +193,7 @@
               <div class="content-display">
                 <div class="content-sp-nuocngot row">
                 </div>
-              </div>
+              </div> -->
               
           </div>
         </div>

@@ -5,14 +5,14 @@
     function getListProduct(){
         require __DIR__ . '/connect.php';
         $arr =  array();
-        $sql = "SELECT * FROM [LoaiNuoc]";
+        $sql = "SELECT l.MaN, l.TenN , l.DonGia, d.TenL FROM LoaiNuoc l INNER JOIN DanhMuc d ON l.LoaiN = d.LoaiN";
         $stmt = sqlsrv_query( $conn, $sql );
         if( $stmt === false) {
             die( print_r( sqlsrv_errors(), true) );
         }
         $flag = false;
         while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
-            $arr[$row['MaN']] = array($row['TenN'],$row['LoaiN'],$row['DonGia']); 
+            $arr[$row['MaN']] = array($row['TenN'],$row['TenL'],$row['DonGia']); 
         }
         echo json_encode($arr);
     }
@@ -27,7 +27,9 @@
         }else{
             $id = $id;
             if(sqlsrv_execute($query) == false){
-                die( print_r(sqlsrv_errors(), true));
+                echo "none";
+            }else{
+                echo "done";
             }
         }
         sqlsrv_free_stmt($query);

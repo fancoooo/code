@@ -6,13 +6,13 @@
         require __DIR__ . '/connect.php';
 
         $arr =  array();
-        $sql = "SELECT * FROM [PhieuThu]";
+        $sql = "SELECT p.MaP, p.MaKH, p.TongTien, p.NgayLap , u.HoTen FROM [PhieuThu] p INNER JOIN [User] u ON p.Email = u.Email";
         $stmt = sqlsrv_query( $conn, $sql );
         if( $stmt === false) {
             die( print_r( sqlsrv_errors(), true) );
         }
         while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
-            $arr[$row['MaP']] = array($row['MaKH'],$row['TongTien'],$row['NgayLap']); 
+            $arr[$row['MaP']] = array($row['MaKH'],$row['TongTien'],$row['NgayLap'],$row['HoTen']); 
         }
         echo json_encode($arr);
     }

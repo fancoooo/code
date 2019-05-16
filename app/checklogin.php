@@ -14,11 +14,11 @@
         if($email == $row['Email'] && $pass == $row['Password']){
             $flag = true;
             if($row['PhanQuyen'] == 1){
-                echo ("User");
-                $_SESSION['user'] = 'User';
+                echo ("user");
+                $_SESSION['user'] = 'user';
             }else{
-                echo ("Admin");
-                $_SESSION['user'] = 'Admin';
+                echo ("admin");
+                $_SESSION['user'] = 'admin';
             }
                 $_SESSION['name'] = $row['Email'];
                 $_SESSION['HoTen'] = $row['HoTen'];
