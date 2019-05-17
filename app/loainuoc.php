@@ -47,6 +47,40 @@
         }
         sqlsrv_free_stmt($stmp);
     }
+
+    function delcategory($id){
+        require __DIR__ . '/connect.php';
+        $sql = 'DELETE FROM DanhMuc WHERE LoaiN = ?';
+        $stmp = sqlsrv_prepare($conn,$sql,array($id));
+        if($stmp == false){
+            die( print_r( sqlsrv_errors(), true));
+        }else{
+            $ex = sqlsrv_execute($stmp);
+            if($ex == false){
+                echo 'none';
+            }else{
+                echo 'done';
+            }
+        }
+        sqlsrv_free_stmt($stmp);
+    }
+
+    function adddm($t,$l){
+        require __DIR__ . '/connect.php';
+        $sql = 'INSERT INTO DanhMuc(LoaiN,TenL) VALUES(?,?)';
+        $stmp = sqlsrv_prepare($conn,$sql,array($t,$l));
+        if($stmp == false){
+            die( print_r( sqlsrv_errors(), true));
+        }else{
+            $ex = sqlsrv_execute($stmp);
+            if($ex == false){
+                echo 'none';
+            }else{
+                echo 'done';
+            }
+        }
+        sqlsrv_free_stmt($stmp);
+    }
     
 
     if(isset($_GET['action']) && !empty($_GET['action'])){
@@ -60,6 +94,12 @@
                 break;
             case 'addsp':
                 addsp($_GET['tensp'],$_GET['loaisp'],(int)$_GET['gia']);
+                break;
+            case 'adddm':
+                adddm($_GET['codedm'],$_GET['namedm']);
+                break;
+            case 'deleteCategory':
+                delcategory($_GET['id']);
                 break;
             default:
                 echo "fail";

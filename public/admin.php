@@ -63,6 +63,19 @@
 								class="li-text">Danh sách thu chi</span></div>
 					</div>
 				</div>
+				<div class="sidebar-area-parent">
+					<div class="sidebar-area" onclick="display(2)">
+						<span class="sidebar-area-label">Quản lý danh mục</span>
+						<span class="sidebar-area-icon-collapse"><i class="fa fa-caret-right"></i></span>
+						<span class="sidebar-area-icon-expand"><i class="fa fa-caret-down"></i></span>
+						<div class="clr"></div>
+					</div>
+					<div class="sidebar-area-content">
+						<div class="sidebar-area-child" id="list-product" onclick="displayContent(3)"><i
+							lass="fa fa-list"></i><span class="li-text">Danh mục sản phẩm</span>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<!-- -------------------------------------------Content------------------------------------------------------------------ -->
@@ -183,6 +196,19 @@
 					</div>
 				</div>
 			</div>
+			<!-- -------------------------------------------List Category-------------------------------------------- -->
+			<div class="content-section" id="three-content-section">
+				<div class="container">
+					<div class="content-section-title">
+						<div class="title-factor-name name-center">Mã danh mục sản phẩm</div>
+						<div class="title-factor">Tên danh mục</div>
+						<div class="title-factor-icon">Thao Tác</div>
+					</div>
+					<div class="content-section-list category">
+
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="clr"></div>
 	</div>
@@ -268,6 +294,38 @@
 		</div>
 	</div>
 	<!-- End Modal -->
+
+	<div class="modal fade" id="Modaldm">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title text-center">Add danh mục</h4>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+				<div class="form-group">
+              		<label for="codedm">Mã Danh Mục</label>
+              		<input type="text" class="form-control" id="codedm"  value="">
+            	</div>
+				<div class="form-group">
+              		<label for="namedm">Tên Danh Mục</label>
+              		<input type="text" class="form-control" id="namedm"  value="">
+            	</div>
+            
+		</div>
+
+				<!-- Modal footer -->
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" id="adddm">Add</button>
+		</div>
+
+			</div>
+		</div>
+	</div>
 
 	<script src=../script/admin.js>> </script> <script src="../script/management.js"></script>
 </body>

@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+
     $.ajax({
         type: "GET",
         url: "../app/productControler.php",
@@ -79,25 +80,41 @@ $(document).ready(function(){
                 $('#myModal').modal();
             });
             //end
+            //begin modal add danh mục
+            $('.add-category').click(function(){
+                $('#Modaldm').modal();
+            });
+            //end
+            $('.delete-category').click(function (){
+                if(confirm("Bạn có chắc chắn muốn xóa danh mục")){
+                    var remove = $(this);
+                    $.ajax({
+                        type: "GET",
+                        url: "../app/loainuoc.php",
+                        data: {
+                            action: 'deleteCategory',
+                            'id': $(this).parent().parent().attr('data-category')
+                        },
+                        dataType: "text",
+                        success: function (response) {
+                            if(response.trim() != 'none'){
+                                remove.parent().parent().remove();
+                                alert('Xóa thành công danh mục');
+                            }else{
+                                alert('Hệ thống lỗi : đợi fix');
+                            }
+                            
+                        }
+                    });
+                }
+            });
 
             
             
           }
       });
 
-      $.ajax({
-          type: "GET",
-          url: "../app/loainuoc.php",
-          data: {
-              action: 'getdanhmuc'
-          },
-          dataType: "json",
-          success: function (response) {
-              for(var key in response){
-                  $('#loaisp').append(`<option value="${key}" >${response[key][0].toUpperCase()}</option>`);
-              }
-          }
-      });
+      
 
       $.ajax({
         type: "GET",
@@ -243,4 +260,73 @@ $('#addsp').click(function(){
 });
 //end
 
+const getdanhmuc = () => {
+    $.ajax({
+        type: "GET",
+        url: "../app/loainuoc.php",
+        data: {
+            action: 'getdanhmuc'
+        },
+        dataType: "json",
+        success: function (response) {
+            for(var key in response){
+                $('#loaisp').append(`<option value="${key}" >${response[key][0].toUpperCase()}</option>`);
+                $('.category').append(`<div class="content-section-info" data-category="${key}">
+    <div class="title-factor-name">${key}</div>
+    <div class="title-factor">${response[key][0].toUpperCase()}</div>
+    <div class="title-factor-icon">
+        <button type="button" class="delete-category"><i class="fa fa-trash"></i></button>
+        <button type="button" class="add-category"><i class="fa fa-plus-square"></i></button>
+    </div>
+    </div>`);
+                
+            }
+        }
+    });
+}
+
+getdanhmuc();
+
+// begin add sản phẩm
+$('#adddm').click(function(){
+    var codedm = $('#codedm').val();
+    var namedm = $('#namedm').val();
+    if(codedm.trim() == '' || namedm.trim() == ''){
+        alert('Thông tin điền thiếu');
+        return ;
+    }else{
+        $.ajax({
+            type: "GET",
+            url: "../app/loainuoc.php",
+            data: {
+                action: 'adddm',
+                codedm: codedm,
+                namedm: namedm
+            },
+            dataType: "text",
+            success: function (response) {
+                if(response.trim() == 'done'){
+                    $('#Modaldm').modal('hide');
+                    $('.category').append(`<div class="content-section-info">
+                    <div class="title-factor-name">${codedm}</div>
+                    <div class="title-factor">${namedm}</div>
+                    <div class="title-factor-icon">
+                        <button type="button" class="update-category"><i class="fa fa-edit"></i></button>
+                        <button type="button" class="delete-category"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="add-category"><i class="fa fa-plus-square"></i></button>
+                    </div>
+                </div>`);
+                alert("Thêm thành công");
+                }else{
+                    alert('Lỗi');
+                }
+            }
+        });
+    }
+});
+//end
+
+    
+
+    
 });
