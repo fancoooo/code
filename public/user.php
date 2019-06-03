@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="../font/css/all.css">
   <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/user.css">
+  <link rel="stylesheet" href="../css/loading.css">
 
   <script src="../script/jquerynew.js"></script>
   <script src="../script/jquery.js"></script>
@@ -31,6 +32,14 @@
         header("Location: localhost:8080/Coffee/");
     }
 ?>
+  <!-- begin loading web -->
+  <div class="load">
+        <div class="day"></div>
+        <div class="day"></div>
+        <div class="day"></div>
+  </div>
+  <!--end loading web-->
+  
   <!-- Begin header -->
   <div id="main">
     <div id="sidebar" class="classsidebar">
@@ -293,6 +302,7 @@
     </div>
   </div>
   <!-- End Modal -->
+  <script src="../script/load.js"></script>
   <script src="../script/user.js"></script>
 </body>
 
